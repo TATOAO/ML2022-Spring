@@ -45,6 +45,9 @@ https://speech.ee.ntu.edu.tw/~hylee/ml/2022-spring.php
 </p>
 
 ## 15 Homeworks
+
+**链接是youtube 链接(可以对应去上面给的B站找)** 
+
 * HW1 : Regression [[Video]](https://youtu.be/cFIImk_yBTg) 
 [[Code]](https://github.com/virginiakm1988/ML2022-Spring/blob/main/HW01/HW01.ipynb) 
 [[Slide]](https://github.com/virginiakm1988/ML2022-Spring/blob/main/HW01/HW01.pdf)
