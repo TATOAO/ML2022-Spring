@@ -1,4 +1,3 @@
-![banner](https://i.imgur.com/f6OcdtQ.png)
 
 
 # AI 全栈化培训 作业主页
@@ -26,17 +25,24 @@
 | HW15  |  2023年1月1日 |
 
 
+---
+
+## 视频资源
+
+应该大部分的视频有B站搬运
+[链接](https://www.bilibili.com/video/BV1RG411H71D?vd_source=44a3a2576d658d197055b59a94d897f1)
+
+李宏毅课程主页：
+https://speech.ee.ntu.edu.tw/~hylee/ml/2022-spring.php
 
 ---
 
+![banner](https://i.imgur.com/f6OcdtQ.png)
 <p>
   <h2 align="center">
   機器學習 Machine Learning 2022 Spring by National Taiwan University<br>
   </h2>
 </p>
-
-
-This repository contains code and slides of 15 homeworks for Machine Learning instructed by 李宏毅(Hung-Yi Lee). All the information about this course can be found on the [course website](https://speech.ee.ntu.edu.tw/~hylee/ml/2022-spring.php). 
 
 ## 15 Homeworks
 * HW1 : Regression [[Video]](https://youtu.be/cFIImk_yBTg) 
@@ -68,6 +74,3 @@ This repository contains code and slides of 15 homeworks for Machine Learning in
 
 ## Lecture Videos
 The lecture videos are available on Hung-Yi Lee's [youtube channel](https://www.youtube.com/channel/UC2ggjtuuWvxrHHHiaDH1dlQ).
-
-[<img src="https://i.imgur.com/SFDpe52.jpg" width="500">](https://www.youtube.com/watch?v=7XZR0-4uS5s&t=18s)
-<img src="http://i.imgur.com/SRv0h6F.jpg" width="500">
