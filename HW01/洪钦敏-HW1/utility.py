@@ -1,23 +1,17 @@
 # Numerical Operations
-import math
 import numpy as np
-
-# Reading/Writing Data
-import pandas as pd
-import os
-import csv
-
-# For Progress Bar
-from tqdm import tqdm
-
 # Pytorch
 import torch
-import torch.nn as nn
-from torch.utils.data import Dataset, DataLoader, random_split
+from torch.utils.data import random_split
+# For Progress Bar
+from tqdm import tqdm
+import csv
+
+
+# Reading/Writing Data
 # random_split随机将一个数据集分割成给定长度的不重叠的新数据集。可选择固定生成器以获得可复现的结果
 
 # For plotting learning curve
-from torch.utils.tensorboard import SummaryWriter
 
 
 # 设置相同的随机种子
@@ -53,3 +47,12 @@ def predict(test_loader, model, device):
             preds.append(pred.detach().cpu())
     preds = torch.cat(preds, dim=0).numpy()
     return preds
+
+
+def save_pred(preds, file):
+    ''' Save predictions to specified file '''
+    with open(file, 'w') as fp:
+        writer = csv.writer(fp)
+        writer.writerow(['id', 'tested_positive'])
+        for i, p in enumerate(preds):
+            writer.writerow([i, p])
