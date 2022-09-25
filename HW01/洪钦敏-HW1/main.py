@@ -58,8 +58,8 @@ if __name__ == '__main__':
     result = selector.fit(x_data, y_data)
     idx = np.argsort(result.scores_)[::-1]
     print(x_data.columns[idx[:k]])
-    selected_idx = list(np.sort(idx[:k]))
-    print(selected_idx)
+    feature_idx = list(np.sort(idx[:k]))
+    print(feature_idx)
     time.sleep(3)
 
     # train_data size: 2699 x 118 (id + 37 states + 16 features x 5 days)
@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     # Select features
     x_train, x_valid, x_test, y_train, y_valid = select_feat(train_data, valid_data, test_data, config['select_all'],
-                                                             selected_idx)
+                                                             feature_idx)
 
     # Print out the number of features.
     print(f'number of features: {x_train.shape[1]}')
