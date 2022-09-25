@@ -25,3 +25,5 @@ Saving model with loss 0.904...
 
 v20
 v19降低复杂度之后 采用更小的batch_size 获得比最佳更小的valid_loss
+过了boss line
+啊 开炉出丹了
