@@ -15,3 +15,13 @@ v18 学习率1e-4
     train_loss最后稳定在1.10以内
     valid_loss曲线波动较小
     说明2个数据集都拟合较好
+    得分双strong
+
+v19  feature_k = 30
+Epoch [1394/10000]: Train loss: 1.0615, Valid loss: 0.9043
+Saving model with loss 0.904...
+测试结果 过拟合太严重 得分1.8
+后续降低模型复杂度测试一下
+
+v20
+v19降低复杂度之后 采用更小的batch_size 获得比最佳更小的valid_loss

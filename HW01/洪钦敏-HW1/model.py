@@ -6,22 +6,23 @@ import torch.nn as nn
 from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
-# tensorboard --logdir=./runs/
+
+# tensorboard --logdir=D:\projects\ML2022-Spring\HW01\洪钦敏-HW1\runs
 class My_Model(nn.Module):
     def __init__(self, input_dim):
         super(My_Model, self).__init__()
         d1 = 64
         d2 = 16
         d3 = 8
-        layer = 3
+        layer = 2
         # TODO: modify model's structure, be aware of dimensions.
         if 3 == layer:
             self.layers = nn.Sequential(
+                # nn.BatchNorm1d(input_dim),
                 nn.Linear(input_dim, d1),
                 nn.ReLU(),
-                # nn.BatchNorm1d(d1),
                 # nn.LeakyReLU(0.2),
-                # nn.Dropout(0.1),
+                nn.Dropout(0.2),
                 nn.Linear(d1, d2),
                 # nn.ReLU(),
                 nn.LeakyReLU(),
@@ -30,15 +31,16 @@ class My_Model(nn.Module):
             )
         elif 2 == layer:
             self.layers = nn.Sequential(
-                # 肥肠重要的改动 https://blog.csdn.net/qq_23262411/article/details/100175943
+                # 重要的改动 https://blog.csdn.net/qq_23262411/article/details/100175943
+                # 然而没啥用貌似
                 # nn.BatchNorm1d(input_dim),
                 nn.Linear(input_dim, d1),
-                nn.BatchNorm1d(d1),
+                # nn.BatchNorm1d(d1),
                 nn.LeakyReLU(),
-                nn.Dropout(0.2),
+                # nn.Dropout(0.2),
                 nn.Linear(d1, 1)
             )
-        elif 1==layer:
+        elif 1 == layer:
             self.layers = nn.Sequential(
                 nn.BatchNorm1d(input_dim),
                 nn.Linear(input_dim, 1)
