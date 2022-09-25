@@ -1,0 +1,17 @@
+v15:
+    修改模型 不同层采用不同的激活函数
+    修改batch_size更小
+    修改
+
+v16:
+    不考虑dropOut 和BatchNorm1d
+    取得了较低的train loss但是无法下降到1.10一下
+
+v17 加大学习率 更快收敛
+
+v18 学习率1e-4
+    batch_size 为100
+    获得较为理想的结果
+    train_loss最后稳定在1.10以内
+    valid_loss曲线波动较小
+    说明2个数据集都拟合较好

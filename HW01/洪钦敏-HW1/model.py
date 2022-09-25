@@ -6,20 +6,43 @@ import torch.nn as nn
 from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
-
+# tensorboard --logdir=./runs/
 class My_Model(nn.Module):
     def __init__(self, input_dim):
         super(My_Model, self).__init__()
+        d1 = 64
+        d2 = 16
+        d3 = 8
+        layer = 3
         # TODO: modify model's structure, be aware of dimensions.
-        self.layers = nn.Sequential(
-            nn.Linear(input_dim, 32),
-            # nn.ReLU(),
-            nn.LeakyReLU(0.2),
-            nn.Linear(32, 16),
-            # nn.ReLU(),
-            nn.LeakyReLU(0.2),
-            nn.Linear(16, 1)
-        )
+        if 3 == layer:
+            self.layers = nn.Sequential(
+                nn.Linear(input_dim, d1),
+                nn.ReLU(),
+                # nn.BatchNorm1d(d1),
+                # nn.LeakyReLU(0.2),
+                # nn.Dropout(0.1),
+                nn.Linear(d1, d2),
+                # nn.ReLU(),
+                nn.LeakyReLU(),
+                # nn.Dropout(0.2),
+                nn.Linear(d2, 1)
+            )
+        elif 2 == layer:
+            self.layers = nn.Sequential(
+                # 肥肠重要的改动 https://blog.csdn.net/qq_23262411/article/details/100175943
+                # nn.BatchNorm1d(input_dim),
+                nn.Linear(input_dim, d1),
+                nn.BatchNorm1d(d1),
+                nn.LeakyReLU(),
+                nn.Dropout(0.2),
+                nn.Linear(d1, 1)
+            )
+        elif 1==layer:
+            self.layers = nn.Sequential(
+                nn.BatchNorm1d(input_dim),
+                nn.Linear(input_dim, 1)
+            )
 
     def forward(self, x):
         x = self.layers(x)
