@@ -15,6 +15,7 @@ from tqdm import tqdm
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader, random_split
+from torch.optim.lr_scheduler import CosineAnnealingLR,CosineAnnealingWarmRestarts,StepLR
 
 # For plotting learning curve
 from torch.utils.tensorboard import SummaryWriter
@@ -127,8 +128,9 @@ def trainer(train_loader, valid_loader, model, config, device):
     # TODO: L2 regularization (optimizer(weight decay...) or implement by your self).
 
     optimizer = torch.optim.SGD(model.parameters(), lr=config['learning_rate'], momentum=0.9, weight_decay=config['weight_decay'])
-    # add L2 regularization
-    # optimizer.add_param_group({'params': })
+    # optimizer = torch.optim.Adam(model.parameters(), lr=config['learning_rate'],weight_decay=config['weight_decay'])
+    # 余弦退火
+    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=5, T_mult=1)
     writer = SummaryWriter()  # Writer of tensoboard.
 
     if not os.path.isdir('./models'):
@@ -156,7 +158,9 @@ def trainer(train_loader, valid_loader, model, config, device):
             # Display current epoch number and loss on tqdm progress bar.
             train_pbar.set_description(f'Epoch [{epoch + 1}/{n_epochs}]')
             train_pbar.set_postfix({'loss': loss.detach().item()})
-
+        #
+        scheduler.step()
+        # cur_lr = optimizer.param_groups[-1]['lr']
         mean_train_loss = sum(loss_record) / len(loss_record)
         writer.add_scalar('Loss/train', mean_train_loss, step)
 
@@ -197,7 +201,7 @@ config = {
     'n_epochs': 3000,     # Number of epochs.
     'batch_size': 256,
     'learning_rate': 1e-5,
-    'weight_decay': 1e-6,
+    'weight_decay': 1e-3,
     'early_stop': 400,    # If model has not improved for this many consecutive epochs, stop training.
     'save_path': './models/model.ckpt'  # Your model will be saved here.
 }
