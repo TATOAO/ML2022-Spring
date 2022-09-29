@@ -80,3 +80,25 @@ https://zhuanlan.zhihu.com/p/39543160
     群里的讨论学习下
 https://blog.csdn.net/qq_35091353/article/details/117234223
 
+6
+    电脑算力不足
+    # data prarameters
+    concat_nframes = 7              # ------------------------------------------------------------
+    train_ratio = 0.9               # the ratio of data used for training, the rest will be used for validation
+    version = 6
+    # training parameters
+    seed = 0                        # random seed
+    batch_size = 1024                # batch size
+    num_epoch = 20                   # the number of training epoch
+    learning_rate = 1e-3          # learning rate
+    weight_decay = 1e-2           # weight decay
+    model_path = './modelv%d.ckpt'%version     # the path where the checkpoint will be saved
+    save_path = 'predictionv%d.csv'%version
+    # model parameters
+    input_dim = 39 * concat_nframes # the input dim of the model, you should not change the value
+    hidden_layers = 3               # the number of hidden layers
+    hidden_dim = 256                # the hidden dim
+
+    [002/020] Train Acc: 0.621318 Loss: 1.208982 | Val Acc: 0.619836 loss: 1.214172
+    这个不错 看来增加concat_nframes 目前来说能有效提升ACC
+
