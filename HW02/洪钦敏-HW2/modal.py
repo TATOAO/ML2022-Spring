@@ -29,3 +29,6 @@ class Classifier(nn.Module):
     def forward(self, x):
         x = self.fc(x)
         return x
+
+if __name__ == '__main__':
+    h = 10

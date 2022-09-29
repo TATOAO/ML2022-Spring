@@ -1,3 +1,4 @@
+import datetime
 import gc
 import torch.nn as nn
 from utiity import *
@@ -7,6 +8,7 @@ from dataset import LibriDataset
 from torch.utils.data import DataLoader
 
 if __name__ == '__main__':
+    start_time = datetime.datetime.now()
     # preprocess data
     train_X, train_y = preprocess_data(split='train', feat_dir='./libriphone/feat', phone_path='./libriphone',
                                        concat_nframes=concat_nframes, train_ratio=train_ratio)
@@ -123,7 +125,10 @@ if __name__ == '__main__':
             _, test_pred = torch.max(outputs, 1)  # get the index of the class with the highest probability
             pred = np.concatenate((pred, test_pred.cpu().numpy()), axis=0)
 
-    with open('prediction.csv', 'w') as f:
+    with open(save_path, 'w') as f:
         f.write('Id,Class\n')
         for i, y in enumerate(pred):
             f.write('{},{}\n'.format(i, y))
+
+    end_time = datetime.datetime.now()
+    print('运行完毕，程序耗时[%d]秒' % (end_time - start_time).seconds)
