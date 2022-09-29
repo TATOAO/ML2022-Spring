@@ -1,0 +1,82 @@
+1
+    更改epoch = 20  最后是0.6
+2
+    # data prarameters
+    concat_nframes = 3              # the number of frames to concat with, n must be odd (total 2k+1 = n frames)
+    train_ratio = 0.9               # the ratio of data used for training, the rest will be used for validation
+    version = 2
+    # training parameters
+    seed = 210418                        # random seed
+    batch_size = 512                # batch size
+    num_epoch = 20                   # the number of training epoch
+    learning_rate = 0.0001          # learning rate
+    model_path = './modelv%d.ckpt'%version     # the path where the checkpoint will be saved
+    save_path = 'predictionv%d.csv'%version
+    # model parameters
+    input_dim = 39 * concat_nframes # the input dim of the model, you should not change the value
+    hidden_layers = 1               # the number of hidden layers
+    hidden_dim = 256                # the hidden dim
+    final_loss = loss + wd * all_weights.pow(2).sum() / 2
+    w = w - lr * w.grad - lr * wd * w
+    糟糕的不行-提高的幅度太低 每次迭代的速度好慢 电脑性能不足 耗时1200秒
+3
+    num_epoch = 20
+    concat_nframes = 3
+    hidden_layers = 3
+    learning_rate = 1e-3          # learning rate
+    weight_decay = 1e-5           # weight decay
+    batch_size = 1024
+    Train Acc: 0.593222 Loss: 1.318854 | Val Acc: 0.565461 loss: 1.440661
+    运行完毕，程序耗时[1028]秒
+4
+    num_epoch = 20
+    concat_nframes = 5
+    hidden_layers = 3
+    learning_rate = 1e-3          # learning rate
+    weight_decay = 1e-5           # weight decay
+    batch_size = 1024
+    增加复杂度之后  第三个epoch就突破60  非常不错= =
+    Train Acc: 0.642307 Loss: 1.134182 | Val Acc: 0.611230 loss: 1.268137
+    20个epoch过去之后感觉提升没有很大
+    boss baseline 是0.82  突破0.7之后 再提交试试
+5
+    # data prarameters
+    concat_nframes = 5              # the number of frames to concat with, n must be odd (total 2k+1 = n frames)
+    train_ratio = 0.9               # the ratio of data used for training, the rest will be used for validation
+    version = 5
+    # training parameters
+    seed = 0                        # random seed
+    batch_size = 1024                # batch size
+    num_epoch = 20                   # the number of training epoch
+    learning_rate = 1e-3          # learning rate
+    weight_decay = 1e-2           # weight decay
+    model_path = './modelv%d.ckpt'%version     # the path where the checkpoint will be saved
+    save_path = 'predictionv%d.csv'%version
+    # model parameters
+    input_dim = 39 * concat_nframes # the input dim of the model, you should not change the value
+    hidden_layers = 6               # the number of hidden layers    --------------------------
+    hidden_dim = 1024                # the hidden dim            ----------------------------------
+    按PPT上面提到的    测试一下    6*1024  后续比较重要的改动 用多个----------表示把
+    模型一下子复杂很多  注意观察是否过拟合
+    可怕 跑的速度慢的吓人  我无敌的3700X都跑不动了
+    跑一个epoch 要10多分钟 OMG 机车的不行
+https://zhuanlan.zhihu.com/p/39543160
+    跑的过程中 看看别人的分析 ：{
+    在这些比较中要考虑的一件事是，改变我们正则的方式会改变weight decay或学习率的最佳值。
+    在我们进行的测试中，L2正则化的最佳学习率是1e-6（最大学习率为1e-3），而0.3是weight decay的最佳值（学习率为3e-3）。
+    在我们的所有测试中，数量级的差异非常一致，主要原因是，L2正则于梯度的平均范数（相当小）相除后，
+    变得非常有效，且Adam使用的学习速率非常小（因此，weight decay的更新需要更强的系数）。}
+    后续考虑  加大weigh_decay的值 算了 改了重新跑
+    半小时过去了 跑了2epoch
+    [002/020] Train Acc: 0.592977 Loss: 1.325879 | Val Acc: 0.595823 loss: 1.319184
+    [003/020] Train Acc: 0.610007 Loss: 1.257670 | Val Acc: 0.601981 loss: 1.293582
+    [004/020] Train Acc: 0.621026 Loss: 1.214978 | Val Acc: 0.607412 loss: 1.277789
+    未来可期
+    [005/020] Train Acc: 0.629167 Loss: 1.182204 | Val Acc: 0.609653 loss: 1.272276
+    [006/020] Train Acc: 0.636369 Loss: 1.155348 | Val Acc: 0.609718 loss: 1.272970
+    困了 睡觉把
+    15分钟一个epoch 20个 300分钟 5个小时
+    感觉这个只能后期放大招了 没那么多生命去消耗啊
+    群里的讨论学习下
+https://blog.csdn.net/qq_35091353/article/details/117234223
+

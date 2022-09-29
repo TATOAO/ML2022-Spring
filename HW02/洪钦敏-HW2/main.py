@@ -33,7 +33,7 @@ if __name__ == '__main__':
     # create model, define a loss function, and optimizer
     model = Classifier(input_dim=input_dim, hidden_layers=hidden_layers, hidden_dim=hidden_dim).to(device)
     criterion = nn.CrossEntropyLoss()
-    optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
 
     best_acc = 0.0
     for epoch in range(num_epoch):
@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
                     _, val_pred = torch.max(outputs, 1)
                     val_acc += (
-                                val_pred.cpu() == labels.cpu()).sum().item()  # get the index of the class with the highest probability
+                            val_pred.cpu() == labels.cpu()).sum().item()  # get the index of the class with the highest probability
                     val_loss += loss.item()
 
                 print('[{:03d}/{:03d}] Train Acc: {:3.6f} Loss: {:3.6f} | Val Acc: {:3.6f} loss: {:3.6f}'.format(
