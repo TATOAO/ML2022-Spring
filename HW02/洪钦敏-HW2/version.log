@@ -105,5 +105,20 @@ https://blog.csdn.net/qq_35091353/article/details/117234223
 
     [002/020] Train Acc: 0.621318 Loss: 1.208982 | Val Acc: 0.619836 loss: 1.214172
     这个不错 看来增加concat_nframes 目前来说能有效提升ACC
+    [020/020] Train Acc: 0.685382 Loss: 0.972401 | Val Acc: 0.647454 loss: 1.131894
 
+7
+    concat_nframes = 11
+8
+    concat_nframes = 11
+    hidden_layers = 5
+    hidden_dim = 512
+    [010/020] Train Acc: 0.753807 Loss: 0.739612 | Val Acc: 0.681906 loss: 1.071598
+    [020/020] Train Acc: 0.786056 Loss: 0.631418 | Val Acc: 0.676169 loss: 1.197365
+    很明显的过拟合  train loss 很低 valid loss没降低
 
+9
+    降低复杂度  后续考虑标准化 或者drop out
+    hidden_layers = 3
+    dropout等于0.25  train变得比valid高
+    acc有望突破0.7 感觉0.8得使用推荐方法RNN了 那不如直接self intention、？
