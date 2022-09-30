@@ -1,3 +1,7 @@
+    ● (1%) Simple baseline: 0.45797 (sample code)
+    ● (1%) Medium baseline: 0.69747 (concat n frames, add layers)
+    ● (1%) Strong baseline: 0.75028 (concat n, batchnorm, dropout, add layers)
+    ● (1%) Boss baseline: 0.82324 (sequence-labeling(using RNN))
 1
     更改epoch = 20  最后是0.6
 2
@@ -101,4 +105,5 @@ https://blog.csdn.net/qq_35091353/article/details/117234223
 
     [002/020] Train Acc: 0.621318 Loss: 1.208982 | Val Acc: 0.619836 loss: 1.214172
     这个不错 看来增加concat_nframes 目前来说能有效提升ACC
+
 
