@@ -8,7 +8,7 @@ class BasicBlock(nn.Module):
 
         self.block = nn.Sequential(
             nn.Linear(input_dim, output_dim),
-            nn.Dropout(0.25),
+            nn.Dropout(0.2),
             nn.ReLU(),
         )
 

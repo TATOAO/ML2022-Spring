@@ -120,5 +120,5 @@ https://blog.csdn.net/qq_35091353/article/details/117234223
 9
     降低复杂度  后续考虑标准化 或者drop out
     hidden_layers = 3
-    dropout等于0.25  train变得比valid高
+    dropout等于0.25  train变得比valid高 过拟合消失
     acc有望突破0.7 感觉0.8得使用推荐方法RNN了 那不如直接self intention、？
