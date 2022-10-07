@@ -122,3 +122,22 @@ https://blog.csdn.net/qq_35091353/article/details/117234223
     hidden_layers = 3
     dropout等于0.25  train变得比valid高 过拟合消失
     acc有望突破0.7 感觉0.8得使用推荐方法RNN了 那不如直接self intention、？
+
+10
+    # data prarameters
+    concat_nframes = 19  # the number of frames to concat with, n must be odd (total 2k+1 = n frames)
+    train_ratio = 0.9  # the ratio of data used for training, the rest will be used for validation
+    # training parameters
+    seed = 0  # random seed
+    batch_size = 1024  # batch size
+    num_epoch = 50  # the number of training epoch
+    learning_rate = 1e-3  # learning rate
+    # model parameters
+    input_dim = 39 * concat_nframes  # the input dim of the model, you should not change the value
+    hidden_layers = 5  # the number of hidden layers
+    hidden_dim = 1024  # the hidden dim
+    nn.BatchNorm1d(output_dim),
+    nn.Dropout(0.2)
+    https://blog.csdn.net/m0_37870649/article/details/82025238
+    都用上了
+    复杂度很高了  过了strong baseline看来要过BOSS只能大改模型了

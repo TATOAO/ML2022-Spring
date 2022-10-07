@@ -95,6 +95,7 @@ def preprocess_data(split, feat_dir, phone_path, concat_nframes, train_ratio=0.8
     print(X.shape)
     if mode != 'test':
         print(y.shape)
+        print(X.shape)
         return X, y
     else:
         return X

@@ -9,6 +9,8 @@ from torch.utils.data import DataLoader
 
 if __name__ == '__main__':
     start_time = datetime.datetime.now()
+    device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+    print(f'DEVICE: {device}')
     # preprocess data
     train_X, train_y = preprocess_data(split='train', feat_dir='./libriphone/feat', phone_path='./libriphone',
                                        concat_nframes=concat_nframes, train_ratio=train_ratio)
@@ -27,8 +29,7 @@ if __name__ == '__main__':
     train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_set, batch_size=batch_size, shuffle=False)
 
-    device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
-    print(f'DEVICE: {device}')
+
 
     # create model, define a loss function, and optimizer
     model = Classifier(input_dim=input_dim, hidden_layers=hidden_layers, hidden_dim=hidden_dim).to(device)
