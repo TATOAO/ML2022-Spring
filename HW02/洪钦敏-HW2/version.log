@@ -141,3 +141,24 @@ https://blog.csdn.net/qq_35091353/article/details/117234223
     https://blog.csdn.net/m0_37870649/article/details/82025238
     都用上了
     复杂度很高了  过了strong baseline看来要过BOSS只能大改模型了
+
+11
+    网上copy了一下别人写的self attention 一顿炼丹
+    也是75左右
+
+12  试着使用RNN 发现NN有现成的lstm
+    一顿炼丹 突破80 但是感觉距离82还有很大距离
+    感觉问题是concat_nframes = 27太小  上下文感知到的信息太片面 可惜无法验证  一使用超过27就内存爆炸
+    有时间得研究一下 训练数据分批加载 才能让concat_nframes 突破27
+    钞能力一波  设置35  设置超过40爆显存 真有你的
+    [002/050] Train Acc: 0.832419 Loss: 0.529749 | Val Acc: 0.808191 loss: 0.664532
+    saving model with acc 0.808
+
+    后面都是使用kaggle跑了
+    自己跑实在太慢了 CUDA还是厉害
+
+18
+    做个笔记  发现提高复杂度 都能提高表现
+    最后通过钞能力 搞了一个7层双向LSTM
+    train一次太久了  不train了
+    不然估计可以多开  更换随机种子 再提高一下
