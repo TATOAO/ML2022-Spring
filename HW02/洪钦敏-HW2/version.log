@@ -162,3 +162,15 @@ https://blog.csdn.net/qq_35091353/article/details/117234223
     最后通过钞能力 搞了一个7层双向LSTM
     train一次太久了  不train了
     不然估计可以多开  更换随机种子 再提高一下
+
+20
+    后续优化思路
+    self attention 多层 线性-多层
+    分批加载  更高的concat
+    质数 去测试纬度变幻
+    如何调节learning rate
+    模型越复杂 learning rate的影响越大
+    batch size learning_rate 变化明显的情况下  可以调大确认模型 调小优化
+
+    一些问题： loss与准确率的关系
+    为什么loss变高 准确率却提升了
