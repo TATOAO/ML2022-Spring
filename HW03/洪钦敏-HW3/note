@@ -1,0 +1,12 @@
+Simple : 0.50099
+Medium : 0.73207 Training Augmentation + Train Longer
+Strong : 0.81872 Training Augmentation + Model Design + Train Looonger (+ Cross Validation + Ensemble)
+Boss : 0.88446 Training Augmentation + Model Design +Test Time Augmentation + Train Looonger (+ Cross Validation + Ensemble)
+
+
+ Training Augmentation
+ Model Design
+ Test Time Augmentation
+
+ Train Looonger-Cross Validation
+ Train Looonger-Ensemble
