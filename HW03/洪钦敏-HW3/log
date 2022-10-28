@@ -6,7 +6,10 @@
 --------------------------------------------------------------------------------------
 这次训练太慢了  考虑目标直接套用现有模型 -研究一下 pretrain=False
 然后考虑  单个训练数据生成多张
+---
 https://pytorch-cn.readthedocs.io/zh/latest/torchvision/torchvision-models/
 再考虑 对测试集生成多张图片 提升预测精度
+---【学习笔记】resnet-18 pytorch源代码解读
+https://blog.csdn.net/lcn463365355/article/details/92846776
 
 
