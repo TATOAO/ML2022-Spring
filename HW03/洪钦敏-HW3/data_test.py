@@ -1,28 +1,6 @@
-import os
-import random
-import pandas as pd
-import numpy as np
-import torch
+from PIL import Image
 import torchvision.transforms as transforms
-from tqdm import tqdm
 
-# "cuda" only when GPUs are available.
-device = "cuda" if torch.cuda.is_available() else "cpu"
-
-def same_seeds(seed):
-    torch.manual_seed(seed)
-    if torch.cuda.is_available():
-        torch.cuda.manual_seed(seed)
-        torch.cuda.manual_seed_all(seed)
-    np.random.seed(seed)
-    torch.backends.cudnn.benchmark = False
-    torch.backends.cudnn.deterministic = True
-
-
-# Torchvision provides lots of useful utilities for image preprocessing
-# data wrapping as well as data augmentation.
-# Normally, We don't need augmentations in testing and validation.
-# All we need here is to resize the PIL image and transform it into Tensor.
 test_tfm = transforms.Compose([
     transforms.Resize((128, 128)),
     transforms.ToTensor(),
@@ -33,9 +11,12 @@ test_tfm = transforms.Compose([
 train_tfm = transforms.Compose([
     # Resize the image into a fixed shape (height = width = 128)
     transforms.Resize((128, 128)),
+    transforms.RandomRotation(180),
+    transforms.RandomHorizontalFlip(0.5),
+    transforms.RandomVerticalFlip(0.5),
     # You may add some transforms here.
     # ToTensor() should be the last one of the transforms.
-    transforms.ToTensor(),
+    # transforms.ToTensor(),
 ])
 
 def spec_transformer(method):
@@ -48,3 +29,28 @@ def spec_transformer(method):
         # transforms.ToTensor(),
     ])
     return tfm
+
+def spec_transformers(methods):
+    tfm = transforms.Compose([
+        # Resize the image into a fixed shape (height = width = 128)
+        transforms.Resize((128, 128)),
+        *[x for x in methods],
+        # You may add some transforms here.
+        # ToTensor() should be the last one of the transforms.
+        # transforms.ToTensor(),
+    ])
+    return tfm
+
+
+if __name__ == '__main__':
+    # 看看图片变幻效果
+    pp = './food11/validation/8_248.jpg'
+    im = Image.open(pp)
+    im.show()
+    x = train_tfm(im)
+    # x = spec_transformer(transforms.RandomVerticalFlip(0))(im)
+    x = spec_transformers([])(im)
+    x.show()
+    print(x.shape)
+    y = test_tfm(im)
+    print(y.shape)
