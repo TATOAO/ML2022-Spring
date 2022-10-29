@@ -48,3 +48,14 @@ def spec_transformer(method):
         # transforms.ToTensor(),
     ])
     return tfm
+
+def spec_transformers(methods):
+    tfm = transforms.Compose([
+        # Resize the image into a fixed shape (height = width = 128)
+        transforms.Resize((128, 128)),
+        *[x for x in methods],
+        # You may add some transforms here.
+        # ToTensor() should be the last one of the transforms.
+        transforms.ToTensor(),
+    ])
+    return tfm

@@ -19,6 +19,7 @@ train_tfm = transforms.Compose([
     # transforms.ToTensor(),
 ])
 
+
 def spec_transformer(method):
     tfm = transforms.Compose([
         # Resize the image into a fixed shape (height = width = 128)
@@ -29,6 +30,7 @@ def spec_transformer(method):
         # transforms.ToTensor(),
     ])
     return tfm
+
 
 def spec_transformers(methods):
     tfm = transforms.Compose([
@@ -47,10 +49,12 @@ if __name__ == '__main__':
     pp = './food11/validation/8_248.jpg'
     im = Image.open(pp)
     im.show()
-    x = train_tfm(im)
+    # x = train_tfm(im)
     # x = spec_transformer(transforms.RandomVerticalFlip(0))(im)
-    x = spec_transformers([])(im)
+    # x = spec_transformers([])(im)
+    fff = [spec_transformers([]),
+           spec_transformers([transforms.RandomHorizontalFlip(1), transforms.RandomVerticalFlip(1)])]
+    x = fff[1](im)
     x.show()
-    print(x.shape)
     y = test_tfm(im)
     print(y.shape)

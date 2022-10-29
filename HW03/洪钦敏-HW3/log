@@ -12,4 +12,8 @@ https://pytorch-cn.readthedocs.io/zh/latest/torchvision/torchvision-models/
 ---【学习笔记】resnet-18 pytorch源代码解读
 https://blog.csdn.net/lcn463365355/article/details/92846776
 
+--------------------------------------------------------------------------------------
+测试了一下 Training Augmentation +Test Time Augmentation  提升不大 但是耗时成倍增加
+看来得先换模型 然后再通过这2个技能 提升 训练集数量 和 增加最后的预测精度
+
 
