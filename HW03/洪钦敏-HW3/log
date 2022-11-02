@@ -28,3 +28,6 @@ transforms.RandomVerticalFlip  随机垂直翻转
 transformers 图对比
 https://blog.csdn.net/lichaoqi1/category_11727407.html
 
+1 如何区分话语者
+2 残差连接 resnet
+

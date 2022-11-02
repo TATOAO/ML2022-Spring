@@ -44,7 +44,7 @@ def spec_transformers(methods):
 
 if __name__ == '__main__':
     # 看看图片变幻效果
-    pp = './food11/validation/8_248.jpg'
+    pp = '0_106.jpg'
     im = Image.open(pp)
     im.show()
     x = train_tfm(im)
