@@ -1,1 +1,8 @@
+*/models/*
+*/runs/*
+
+*.test.csv
+*.train.csv
+
 .DS_Store/
+
