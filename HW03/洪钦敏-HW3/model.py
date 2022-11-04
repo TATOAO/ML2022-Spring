@@ -1,4 +1,5 @@
 import torch.nn as nn
+import torchvision.models as models
 
 
 class Classifier(nn.Module):
@@ -45,3 +46,12 @@ class Classifier(nn.Module):
         out = self.cnn(x)
         out = out.view(out.size()[0], -1)
         return self.fc(out)
+
+
+resnet = models.resnet50(pretrained=False)
+resnet.conv1.kernel_size = (3,3)
+resnet.fc.out_features = 11
+print(resnet.conv1.kernel_size)
+# resnet.fc = nn.Sequential(nn.Dropout(0.3),nn.Linear(512,11))
+print(resnet)
+

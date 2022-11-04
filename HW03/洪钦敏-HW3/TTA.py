@@ -1,4 +1,4 @@
-from data_load import MultiFoodDataset,FoodDataset
+from data_load import MultiFoodDataset, FoodDataset
 import os
 import numpy as np
 import pandas as pd
@@ -16,8 +16,9 @@ _exp_name = "sample"
 
 print(device)
 transformers = [spec_transformers([]),
-                spec_transformers([transforms.RandomRotation(180)])]
-weight = [0.6, 0.4]
+                spec_transformers([transforms.RandomRotation(180)]),
+                spec_transformers([transforms.RandomHorizontalFlip(1)]),
+                spec_transformers([transforms.RandomVerticalFlip(1)])]
 # test_set = FoodDataset(os.path.join(_dataset_dir, "test"), tfm=test_tfm)
 test_set = MultiFoodDataset(os.path.join(_dataset_dir, "test"), tfms=transformers)
 test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=0, pin_memory=True)
@@ -28,7 +29,7 @@ model_best.load_state_dict(torch.load(f"{_exp_name}_best.ckpt", map_location='cp
 model_best.eval()
 prediction = []
 
-weight = np.array([0.6, 0.4])
+weight = np.array([0.4, 0.2, 0.2, 0.2])
 
 with torch.no_grad():
     for data, _ in test_loader:
@@ -37,7 +38,7 @@ with torch.no_grad():
         batch_len = test_pred.shape[0]
         print('test_pred', test_pred.shape)
         # shape 为batch_size
-        oh = test_pred.cpu().data.numpy().reshape(batch_len//2, 2, 11)
+        oh = test_pred.cpu().data.numpy().reshape(batch_len // 4, 4, 11)
         oh = np.dot(weight, oh)
         test_label = np.argmax(oh, axis=1)
         print(type(oh), oh.shape, oh)
@@ -58,6 +59,6 @@ def pad4(i):
 
 
 df = pd.DataFrame()
-df["Id"] = [pad4(i) for i in range(1, len(test_set)//2 + 1)]
+df["Id"] = [pad4(i) for i in range(1, len(test_set) // 4 + 1)]
 df["Category"] = prediction
 df.to_csv("submission.csv", index=False)

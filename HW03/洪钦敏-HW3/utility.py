@@ -59,3 +59,8 @@ def spec_transformers(methods):
         transforms.ToTensor(),
     ])
     return tfm
+
+if __name__ == '__main__':
+    l1 = [1,2,3,4]
+    l2 = [5]+l1[1:]
+    print(l1,l2)

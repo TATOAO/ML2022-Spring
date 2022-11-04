@@ -37,7 +37,8 @@ contrast:对比度
 saturation :饱和度
 hue:明度  取值必须在(-0.5, 0.5)
 
-
+---------------------------------------------------------------------------------------------------
+模型的调整比预想的简单啊
 transforms.RandomHorizontalFlip()
 transforms.RandomVerticalFlip()
 transform.ColorJitter(brightness=(0.7,1.3), contrast=(0.7,1.3), saturation=(0.7,1.3), hue=(-0.1,0.1))
@@ -62,5 +63,18 @@ center:旋转中心的位置，默认为图片的中心
 --------------------------------------------------------------------------------------
 测试了一下 Training Augmentation +Test Time Augmentation  提升不大 但是耗时成倍增加
 看来得先换模型 然后再通过这2个技能 提升 训练集数量 和 增加最后的预测精度
+https://www.bilibili.com/video/BV1yT41177Lg/?spm_id_from=333.337.search-card.all.click&vd_source=d5cb81f48b837a79649b623f632640c3
+adam
+[ Train | 001/100 ] loss = 1.95417, acc = 0.30516
+[ Train | 002/100 ] loss = 1.73287, acc = 0.38609
+[ Train | 003/100 ] loss = 1.59094, acc = 0.43552
+[ Train | 004/100 ] loss = 1.47998, acc = 0.47857
+[ Train | 005/100 ] loss = 1.40205, acc = 0.51290
+adamW
+[ Train | 001/100 ] loss = 1.94305, acc = 0.32075
+[ Train | 002/100 ] loss = 1.69150, acc = 0.41425
+[ Train | 003/100 ] loss = 1.55423, acc = 0.45308
+[ Train | 004/100 ] loss = 1.46482, acc = 0.49190
+[ Train | 005/100 ] loss = 1.36791, acc = 0.51996
 
 
