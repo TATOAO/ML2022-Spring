@@ -11,6 +11,53 @@ https://pytorch-cn.readthedocs.io/zh/latest/torchvision/torchvision-models/
 再考虑 对测试集生成多张图片 提升预测精度
 ---【学习笔记】resnet-18 pytorch源代码解读
 https://blog.csdn.net/lcn463365355/article/details/92846776
+pytorch transforms
+https://pytorch.org/vision/stable/transforms.html?highlight=data%20augmentation
+transformers 解析
+https://zhuanlan.zhihu.com/p/476220305
+transforms.CenterCrop 对图片中心进行裁剪
+transforms.ColorJitter 对图像颜色的对比度、饱和度和零度进行变换
+transforms.FiveCrop  对图像四个角和中心进行裁剪得到五分图像
+transforms.Grayscale  对图像进行灰度变换
+transforms.Pad  使用固定值进行像素填充
+transforms.RandomAffine  随机仿射变换
+transforms.RandomCrop  随机区域裁剪
+transforms.RandomHorizontalFlip  随机水平翻转
+transforms.RandomRotation  随机旋转
+transforms.RandomVerticalFlip  随机垂直翻转
+transformers 图对比
+https://blog.csdn.net/lichaoqi1/category_11727407.html
+
+最终选择的增强方法
+transforms.RandomHorizontalFlip  随机水平翻转  默认50概率
+transforms.RandomVerticalFlip  随机垂直翻转   默认50概率
+transforms.ColorJitter(brightness=0, contrast=0, saturation=0, hue=0)
+brightness:亮度
+contrast:对比度
+saturation :饱和度
+hue:明度  取值必须在(-0.5, 0.5)
+
+
+transforms.RandomHorizontalFlip()
+transforms.RandomVerticalFlip()
+transform.ColorJitter(brightness=(0.7,1.3), contrast=(0.7,1.3), saturation=(0.7,1.3), hue=(-0.1,0.1))
+transforms.RandomResizedCrop(size, scale=(0.08, 1.0), ratio=(0.75, 1.3333333333333333), interpolation=<InterpolationMode.BILINEAR: 'bilinear'>)
+scale：在调整大小之前，指定裁剪的随机区域的下限和上限。比例是根据原始图像的面积定义的。
+ratio:调整大小之前，裁剪的随机纵横比的上下限
+
+transforms.RandomAffine(degrees, translate=None, scale=None, shear=None,
+interpolation=<InterpolationMode.NEAREST: 'nearest'>, fill=0, fillcolor=None, resample=None, center=None)
+
+degrees：可从中选择的度数范围。如果为非零数字，旋转角度从（-degrees,+degress),或者可设置为（min,max)
+translate:水平和垂直平移的最大绝对偏移量。长度为2的元组，数值在(0,1)之间，dx在（-w*a,w*a)，dy在（-h*b,h*b)
+scale:比例因子区间，例如（a，b），则从范围a<=比例<=b中随机采样比例。默认情况下，将保留原始比例。
+shear:可从中选择的度数范围。放射变换的角度
+interpolation：插值的方法如果输入为Tensor只支持InterpolationMode.NEAREST, InterpolationMode.BILINEAR
+fill:填充像素的值，
+fillcolor:0.14以后版本被移除，使用fill代替
+resample:0.14以后版本被移除，使用interpolation代替
+center:旋转中心的位置，默认为图片的中心
+
 
 --------------------------------------------------------------------------------------
 测试了一下 Training Augmentation +Test Time Augmentation  提升不大 但是耗时成倍增加
