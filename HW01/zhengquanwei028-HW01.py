@@ -15,7 +15,7 @@ from tqdm import tqdm
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader, random_split
-from torch.optim.lr_scheduler import CosineAnnealingLR,CosineAnnealingWarmRestarts,StepLR
+from torch.optim.lr_scheduler import CosineAnnealingLR,CosineAnnealingWarmRestarts,StepLR, ReduceLROnPlateau
 
 # For plotting learning curve
 from torch.utils.tensorboard import SummaryWriter
@@ -83,18 +83,34 @@ class My_Model(nn.Module):
         super(My_Model, self).__init__()
         # TODO: modify model's structure, be aware of dimensions.
         self.layers = nn.Sequential(
-            nn.Linear(input_dim, 128),
+            nn.Linear(input_dim, 64),
+            nn.Dropout(p=0.2),
             nn.ReLU(),
-            nn.Linear(128, 32),
-            nn.ReLU(),
-            nn.Linear(32, 1)
+            nn.Linear(64, 8),
+            nn.Dropout(p=0.1),
+            nn.LeakyReLU(0.6),
+            nn.Linear(8, 1),
         )
 
     def forward(self, x):
+        # x = self.dropout(x)
+        # print('dropout 输出', x)
         x = self.layers(x)
         x = x.squeeze(1) # (B, 1) -> (B)
         return x
 
+config = {
+    'seed': 404,      # Your seed number, you can pick your lucky number. :)
+    'select_all': False,   # Whether to use all features.
+    'valid_ratio': 0.2,   # validation_size = train_size * valid_ratio
+    'n_epochs': 3000,     # Number of epochs.
+    'batch_size': 512,
+    'learning_rate': 1e-3,
+    # 'weight_decay': 1e-3,
+    'weight_decay': 0,
+    'early_stop': 400,    # If model has not improved for this many consecutive epochs, stop training.
+    'save_path': './models/model.ckpt'  # Your model will be saved here.
+}
 
 def select_feat(train_data, valid_data, test_data, select_all=True):
     '''Selects useful features to perform regression'''
@@ -105,7 +121,8 @@ def select_feat(train_data, valid_data, test_data, select_all=True):
     all_feats = 'id,AL,AK,AZ,AR,CA,CO,CT,FL,GA,ID,IL,IN,IA,KS,KY,LA,MD,MA,MI,MN,MS,MO,NE,NV,NJ,NM,NY,NC,OH,OK,OR,RI,SC,TX,UT,VA,WA,cli,ili,hh_cmnty_cli,nohh_cmnty_cli,wearing_mask,travel_outside_state,work_outside_home,shop,restaurant,spent_time,large_event,public_transit,anxious,depressed,worried_finances,tested_positive,cli,ili,hh_cmnty_cli,nohh_cmnty_cli,wearing_mask,travel_outside_state,work_outside_home,shop,restaurant,spent_time,large_event,public_transit,anxious,depressed,worried_finances,tested_positive,cli,ili,hh_cmnty_cli,nohh_cmnty_cli,wearing_mask,travel_outside_state,work_outside_home,shop,restaurant,spent_time,large_event,public_transit,anxious,depressed,worried_finances,tested_positive,cli,ili,hh_cmnty_cli,nohh_cmnty_cli,wearing_mask,travel_outside_state,work_outside_home,shop,restaurant,spent_time,large_event,public_transit,anxious,depressed,worried_finances,tested_positive,cli,ili,hh_cmnty_cli,nohh_cmnty_cli,wearing_mask,travel_outside_state,work_outside_home,shop,restaurant,spent_time,large_event,public_transit,anxious,depressed,worried_finances'.split(',')
     # states_feats = all_feats[1:38]
     # illness = np.array(['cli','ili','hh_cmnty_cli','nohh_cmnty_cli','tested_positive'])
-    valid_feats = 'AL,AK,AZ,AR,CA,CO,CT,FL,GA,ID,IL,IN,IA,KS,KY,LA,MD,MA,MI,MN,MS,MO,NE,NV,NJ,NM,NY,NC,OH,OK,OR,RI,SC,TX,UT,VA,WA,cli,ili,hh_cmnty_cli,nohh_cmnty_cli,tested_positive'.split(',')
+    # valid_feats = 'AL,AK,AZ,AR,CA,CO,CT,FL,GA,ID,IL,IN,IA,KS,KY,LA,MD,MA,MI,MN,MS,MO,NE,NV,NJ,NM,NY,NC,OH,OK,OR,RI,SC,TX,UT,VA,WA,cli,ili,hh_cmnty_cli,nohh_cmnty_cli,tested_positive'.split(',')
+    valid_feats = 'cli,ili,hh_cmnty_cli,nohh_cmnty_cli,tested_positive'.split(',')
 
     valid_idx = []
     for i in list(range(len(all_feats))):
@@ -127,10 +144,21 @@ def trainer(train_loader, valid_loader, model, config, device):
     # TODO: Please check https://pytorch.org/docs/stable/optim.html to get more available algorithms.
     # TODO: L2 regularization (optimizer(weight decay...) or implement by your self).
 
-    optimizer = torch.optim.SGD(model.parameters(), lr=config['learning_rate'], momentum=0.9, weight_decay=config['weight_decay'])
-    # optimizer = torch.optim.Adam(model.parameters(), lr=config['learning_rate'],weight_decay=config['weight_decay'])
+    # optimizer = torch.optim.SGD(model.parameters(), lr=config['learning_rate'], momentum=0.9, weight_decay=config['weight_decay'])
+    # params_dict = [{
+    #     'params': model.layers[0].parameters(),
+    #     'lr': 0.001,
+    # }, {
+    #     'params': model.layers[1].parameters(),
+    #     'lr': 0.01,
+    #     # 'weight_decay': config['weight_decay'],
+    # }]
+    optimizer = torch.optim.Adam(model.parameters(), lr=config['learning_rate'],weight_decay=config['weight_decay'], amsgrad=False)
+    # optimizer = torch.optim.Adam(params_dict)
     # 余弦退火
-    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=5, T_mult=1)
+    # scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=10, T_mult=1, verbose=True)
+    # scheduler = ReduceLROnPlateau(optimizer, 'min', verbose=True, min_lr=1e-7)
+    # scheduler = CosineAnnealingLR(optimizer, T_max=50, eta_min=1e-7, verbose=True)
     writer = SummaryWriter()  # Writer of tensoboard.
 
     if not os.path.isdir('./models'):
@@ -159,8 +187,7 @@ def trainer(train_loader, valid_loader, model, config, device):
             train_pbar.set_description(f'Epoch [{epoch + 1}/{n_epochs}]')
             train_pbar.set_postfix({'loss': loss.detach().item()})
         #
-        scheduler.step()
-        # cur_lr = optimizer.param_groups[-1]['lr']
+        # scheduler.step(epoch)
         mean_train_loss = sum(loss_record) / len(loss_record)
         writer.add_scalar('Loss/train', mean_train_loss, step)
 
@@ -194,17 +221,6 @@ def trainer(train_loader, valid_loader, model, config, device):
 
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-config = {
-    'seed': 5201314,      # Your seed number, you can pick your lucky number. :)
-    'select_all': False,   # Whether to use all features.
-    'valid_ratio': 0.2,   # validation_size = train_size * valid_ratio
-    'n_epochs': 3000,     # Number of epochs.
-    'batch_size': 256,
-    'learning_rate': 1e-5,
-    'weight_decay': 1e-3,
-    'early_stop': 400,    # If model has not improved for this many consecutive epochs, stop training.
-    'save_path': './models/model.ckpt'  # Your model will be saved here.
-}
 
 
 # Set seed for reproducibility
@@ -242,7 +258,7 @@ test_loader = DataLoader(test_dataset, batch_size=config['batch_size'], shuffle=
 
 
 model = My_Model(input_dim=x_train.shape[1]).to(device) # put your model and data on the same computation device.
-# trainer(train_loader, valid_loader, model, config, device)
+trainer(train_loader, valid_loader, model, config, device)
 
 def save_pred(preds, file):
     ''' Save predictions to specified file '''
