@@ -1,0 +1,27 @@
+Simple : 0.50099
+Medium : 0.73207 Training Augmentation + Train Longer
+Strong : 0.81872 Training Augmentation + Model Design + Train Looonger (+ Cross Validation + Ensemble)
+Boss : 0.88446 Training Augmentation + Model Design +Test Time Augmentation + Train Looonger (+ Cross Validation + Ensemble)
+
+
+ Training Augmentation
+ Model Design
+ Test Time Augmentation
+
+ Train Looonger-Cross Validation
+ Train Looonger-Ensemble
+
+# 都是
+DATA AUGMENTIATION
+https://pytorch.org/vision/stable/transforms.html?highlight=data%20augmentation
+https://zhuanlan.zhihu.com/p/476220305
+transforms.CenterCrop 对图片中心进行裁剪
+transforms.ColorJitter 对图像颜色的对比度、饱和度和零度进行变换
+transforms.FiveCrop  对图像四个角和中心进行裁剪得到五分图像
+transforms.Grayscale  对图像进行灰度变换
+transforms.Pad  使用固定值进行像素填充
+transforms.RandomAffine  随机仿射变换
+transforms.RandomCrop  随机区域裁剪
+transforms.RandomHorizontalFlip  随机水平翻转
+transforms.RandomRotation  随机旋转
+transforms.RandomVerticalFlip  随机垂直翻转
